@@ -1,0 +1,134 @@
+<?php
+
+namespace App\Http\Controllers\Backend;
+
+use App\Http\Controllers\Controller;
+use App\Models\Backend\Division;
+use App\Models\Backend\District;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
+class DistrictController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $districts = District::orderBy('name', 'asc')->get();
+        return view('backend.pages.district.manage', compact('districts'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('backend.pages.district.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        // Validate the district field
+        $request->validate([
+            'name'          => 'required|max:255',
+            'division_id'   => 'required',
+        ],
+        [
+            'name'          => 'Please provide valid District name',
+            'division_id'   => 'Please set a Division',
+        ]);
+
+        $district = new District();
+        $district->name         = $request->name;
+        $district->division_id  = $request->division_id;
+        $district->save();
+
+        return redirect()->route('manageDistrict');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $district = District::find($id);
+        if (!is_null($district)) {
+            return view('backend.pages.district.edit', compact('district'));
+        }
+        else {
+            return view('backend.pages.district.manage');
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+
+        // Validate the district field
+        $request->validate([
+            'name'          => 'required|max:255',
+            'division_id'   => 'required',
+        ],
+        [
+            'name'          => 'Please provide valid District name',
+            'division_id'   => 'Please set a Division',
+        ]);
+
+        $district = District::find($id);
+        $district->name         = $request->name;
+        $district->division_id  = $request->division_id;
+        $district->save();
+
+        return redirect()->route('manageDistrict');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $division = District::find($id);
+        
+            if ( !is_null($division)){
+                $division->delete();
+            }   
+
+        return redirect()->route('manageDistrict');
+
+    }
+}
