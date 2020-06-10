@@ -12,7 +12,7 @@ Framework: Laravel 7
 
 3. Integrated the Front end with the provided template. Home page and Shop page are integrated maintaining folder and files structure accordingly. Links on Logo and Navigation menu for both pages are working.
 
-4. Created the factories and seeding for Category, Brand, Products, Division, District. Also Make faker Data for all. Also make seeding by getting data for link brand_id, category_id, division_id tables on Products and District.
+4. Created the factories and seeding for Category, Brand, Products, Division, District. Also Make faker Data for all. Also make seeding by getting data of brand_id, category_id, division_id on Products and District tables.
 
 
 ## Contributing
